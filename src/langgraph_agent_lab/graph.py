@@ -21,18 +21,22 @@ from .nodes import (
     risky_action_node,
     tool_node,
 )
-from .routing import route_after_approval, route_after_classify, route_after_evaluate, route_after_retry
+from .routing import (
+    route_after_approval,
+    route_after_classify,
+    route_after_evaluate,
+    route_after_retry,
+)
 from .state import AgentState
 
 
-def build_graph(checkpointer: Any | None = None):
+def build_graph(checkpointer: Any | None = None):  # noqa: ANN401, ANN201
     """Build and compile the LangGraph workflow.
 
-    TODO(student): review the architecture and modify nodes/edges only with a clear reason.
     Required behaviors:
     - intake -> classify (normalization + routing)
     - classify routes to answer/tool/clarify/risky/retry
-    - tool -> evaluate creates the retry loop (slide: "done?" check)
+    - tool -> evaluate creates the retry loop
     - risky path requires approval before tool/action
     - retry loop bounded by max_attempts -> dead_letter on exhaustion
     - all paths eventually reach finalize -> END
@@ -40,7 +44,8 @@ def build_graph(checkpointer: Any | None = None):
     try:
         from langgraph.graph import END, START, StateGraph
     except Exception as exc:  # pragma: no cover - helpful install error
-        raise RuntimeError("LangGraph is required. Run: pip install -e '.[dev]' or pip install langgraph") from exc
+        msg = "LangGraph is required. Run: pip install -e '.[dev]'"
+        raise RuntimeError(msg) from exc
 
     graph = StateGraph(AgentState)
     graph.add_node("intake", intake_node)
