@@ -28,12 +28,12 @@ connected via conditional edges. It uses priority-based routing and bounded retr
 | S02_tool | tool | tool | True | 0 | 0 |
 | S03_missing | missing_info | missing_info | True | 0 | 0 |
 | S04_risky | risky | risky | True | 0 | 1 |
-| S05_error | error | error | True | 3 | 0 |
+| S05_error | error | error | True | 2 | 0 |
 | S06_delete | risky | risky | True | 0 | 1 |
 | S07_dead_letter | error | error | True | 1 | 0 |
 
 - **Total Success Rate**: 100.00%
-- **Average Nodes Visited**: 6.57
+- **Average Nodes Visited**: 6.43
 
 ## 5. Failure analysis
 

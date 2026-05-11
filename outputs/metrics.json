@@ -1,8 +1,8 @@
 {
   "total_scenarios": 7,
   "success_rate": 1.0,
-  "avg_nodes_visited": 6.571428571428571,
-  "total_retries": 4,
+  "avg_nodes_visited": 6.428571428571429,
+  "total_retries": 3,
   "total_interrupts": 2,
   "resume_success": false,
   "scenario_metrics": [
@@ -63,16 +63,15 @@
       "success": true,
       "expected_route": "error",
       "actual_route": "error",
-      "nodes_visited": 11,
-      "retry_count": 3,
+      "nodes_visited": 10,
+      "retry_count": 2,
       "interrupt_count": 0,
       "approval_required": false,
       "approval_observed": false,
       "latency_ms": 0,
       "errors": [
         "Attempt 1 failed: No tool results yet",
-        "Attempt 2 failed: ERROR: transient system failure (attempt 1) for S05_error",
-        "Attempt 3 failed: SUCCESS: Tool processed request for S05_error"
+        "Attempt 2 failed: ERROR: transient system failure (attempt 1) for S05_error"
       ]
     },
     {

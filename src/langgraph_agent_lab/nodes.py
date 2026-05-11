@@ -116,9 +116,15 @@ def tool_node(state: AgentState) -> dict:
     """
     attempt = int(state.get("attempt", 0))
     scenario_id = state.get("scenario_id", "unknown")
+    query = state.get("query", "").lower()
+    max_attempts = int(state.get("max_attempts", 3))
     
-    # Simulate transient failure: fail first 2 attempts if route is ERROR
-    if state.get("route") == Route.ERROR.value and attempt < 2:
+    # Simulate transient/persistent failure dynamically without hardcoding `attempt < 2`
+    if "cannot recover" in query or "system failure" in query:
+        # Persistent error always fails
+        result = f"ERROR: unrecoverable system failure for {scenario_id}"
+    elif state.get("route") == Route.ERROR.value and attempt < max_attempts - 1:
+        # Transient error fails until the last allowed attempt
         result = f"ERROR: transient system failure (attempt {attempt}) for {scenario_id}"
     else:
         result = f"SUCCESS: Tool processed request for {scenario_id}"
@@ -228,7 +234,7 @@ def evaluate_node(state: AgentState) -> dict:
     tool_results = state.get("tool_results", [])
     latest = tool_results[-1] if tool_results else ""
     
-    if "ERROR" in latest.upper():
+    if latest.upper().startswith("ERROR"):
         return {
             "evaluation_result": "needs_retry",
             "events": [make_event("evaluate", "completed", "failure detected, routing to retry")],
